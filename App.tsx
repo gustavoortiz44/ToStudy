@@ -47,14 +47,20 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
+import { NavigationContainer } from '@react-navigation/native';
+import  StackNavigator  from './src/navigator/StackNavigator' ;
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <Text>Aplicacion para testing</Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    // <SafeAreaProvider>
+    //   <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+    //     <Text>App para testing</Text>
+    //   </SafeAreaView>
+    // </SafeAreaProvider>
+
+    <NavigationContainer>
+      <StackNavigator/>
+    </NavigationContainer>
     
   )
 }
