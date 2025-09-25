@@ -85,6 +85,39 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    flavorDimensions "env"
+
+    productFlavors {
+        dev {
+        dimension "env"
+        applicationIdSuffix ".dev"
+        versionNameSuffix "-dev"
+        resValue "string", "app_name", "ToStudy (Dev)"
+        }
+
+        stage {
+        dimension "env"
+        applicationIdSuffix ".stage"
+        versionNameSuffix "-stage"
+        resValue "string", "app_name", "ToStudy (Stage)"
+        }
+
+        prod {
+        dimension "env"
+        // sin sufijos: app real
+        resValue "string", "app_name", "ToStudy"
+        }
+    }
+
+        /** react-native-config: mapea flavor -> archivo .env */
+    project.ext.envConfigFiles = [
+    dev   : ".env.dev",
+    stage : ".env.stage",
+    prod  : ".env.prod",
+    ]
+    apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
