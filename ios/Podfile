@@ -8,6 +8,18 @@ require Pod::Executable.execute_command('node', ['-p',
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
+# 👇 Aquí agregamos el mapeo de configuraciones
+project 'ToStudy', {
+  'Debug'        => :debug,
+  'Release'      => :release,
+  'Debug-Dev'    => :debug,
+  'Debug-Stage'  => :debug,
+  'Debug-Prod'   => :debug,
+  'Release-Dev'  => :release,
+  'Release-Stage'=> :release,
+  'Release-Prod' => :release,
+}
+
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green

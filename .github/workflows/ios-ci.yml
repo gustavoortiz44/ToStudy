@@ -1,0 +1,48 @@
+name: iOS CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ feat/* ]
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Selecciona Xcode 16.1 (o el minor que tengas disponible: 16.2, 16.0, etc.)
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.1'
+
+      - name: Install JS deps
+        run: npm ci
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Install CocoaPods
+        working-directory: ios
+        run: |
+          bundle init || true
+          bundle add cocoapods --version "~> 1.13" || true
+          bundle exec pod install
+
+      - name: Build iOS (Dev Debug - simulator)
+        working-directory: ios
+        run: |
+          xcodebuild -workspace ToStudy.xcworkspace \
+            -scheme "ToStudy-Dev" -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build | xcpretty
